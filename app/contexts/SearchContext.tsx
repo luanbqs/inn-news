@@ -53,8 +53,6 @@ export const SearchProvider = ({ children }: PropsWithChildren) => {
   const handleFromDateChange = useCallback((date: DateOptions) => {
     const fromDate = getFromDate(date);
 
-    console.log("aqui--->", fromDate);
-
     setFromDate(fromDate);
   }, []);
 

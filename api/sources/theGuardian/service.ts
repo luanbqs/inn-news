@@ -19,9 +19,7 @@ export default async function fetchTheGuardianNews<Response>({
   });
 
   try {
-    const response = await axios.get(
-      `${url}api-key=${process.env.THEGUARDIAN_API_KEY}`
-    );
+    const response = await axios.get(url);
 
     return response.data.response;
   } catch (error) {
@@ -67,9 +65,7 @@ function buildQueryUrl({
   if (showFields) params.append("show-fields", showFields);
   if (showRefinements) params.append("show-refinements", showRefinements);
   if (orderBy) params.append("order-by", orderBy);
+  params.append("api-key", process.env.THEGUARDIAN_API_KEY || "");
 
-  return `${baseUrl}?${params.toString()} ${params ? "&" : ""}`.replace(
-    /\s/g,
-    ""
-  );
+  return `${baseUrl}?${params.toString()}`;
 }
