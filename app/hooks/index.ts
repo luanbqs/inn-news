@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
 
+import { FeedContext } from "@/app/contexts/FeedContext";
 import fetchNews from "@/api/processors/fetchNews";
 import { SearchContext } from "@/app/contexts/SearchContext";
 
@@ -21,3 +22,4 @@ export function useNews(params?: UseNewsProps) {
 }
 
 export const useSearch = () => useContext(SearchContext);
+export const useFeed = () => useContext(FeedContext);

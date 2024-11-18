@@ -11,6 +11,7 @@ import { link as linkStyles } from "@nextui-org/theme";
 import clsx from "clsx";
 import NextLink from "next/link";
 import { useDisclosure } from "@nextui-org/react";
+import { usePathname } from "next/navigation";
 
 import { Filters } from "../Filters/Filters";
 
@@ -20,7 +21,7 @@ import { useSearch } from "@/app/hooks";
 
 export const Navbar = () => {
   const { handleSearchInput } = useSearch();
-
+  const pathname = usePathname();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
@@ -44,7 +45,7 @@ export const Navbar = () => {
               placeholder="Search..."
               size="lg"
               startContent={
-                <SearchIcon className="text-default-900 text-base text-default-400 pointer-events-none flex-shrink-0" />
+                <SearchIcon className="text-default-900 text-base pointer-events-none flex-shrink-0" />
               }
               type="search"
               onChange={handleSearchInput}
@@ -73,7 +74,9 @@ export const Navbar = () => {
               <NextLink
                 className={clsx(
                   linkStyles({ color: "foreground" }),
-                  "data-[active=true]:text-primary data-[active=true]:font-medium",
+                  pathname === item.href
+                    ? "text-primary font-bold underline"
+                    : "text-foreground",
                 )}
                 color="foreground"
                 href={item.href}

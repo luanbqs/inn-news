@@ -1,3 +1,4 @@
+"use client";
 import {
   ChangeEvent,
   createContext,
@@ -6,7 +7,6 @@ import {
   useMemo,
   useState,
 } from "react";
-import { useRouter } from "next/navigation";
 
 import { useNews } from "../hooks";
 
@@ -19,7 +19,7 @@ export type DateOptions =
   | "Past week"
   | "Past year";
 
-type SearchContextProps = {
+type FeedContextProps = {
   searchValue: string;
   handleSearchInput: (event: ChangeEvent<HTMLInputElement>) => void;
   fromDate?: string;
@@ -31,7 +31,7 @@ type SearchContextProps = {
   isError: boolean;
 };
 
-export const SearchContext = createContext<SearchContextProps>({
+export const FeedContext = createContext<FeedContextProps>({
   searchValue: "",
   handleFromDateChange: () => undefined,
   fromDate: "",
@@ -46,11 +46,11 @@ export const SearchContext = createContext<SearchContextProps>({
 let timeout: NodeJS.Timeout;
 const DEBOUNCE_DELAY = 1000;
 
-export const SearchProvider = ({ children }: PropsWithChildren) => {
+export const FeedProvider = ({ children }: PropsWithChildren) => {
   const [searchValue, setSearchValue] = useState("");
   const [fromDate, setFromDate] = useState("");
   const [sourcesFilter, setSourcesFilter] = useState<string[]>([]);
-  const router = useRouter();
+
   const { data, isLoading, isError } = useNews({
     searchValue,
     fromDate,
@@ -75,7 +75,6 @@ export const SearchProvider = ({ children }: PropsWithChildren) => {
         const query = event.target.value;
 
         setSearchValue(query);
-        router.push("/");
       }, DEBOUNCE_DELAY);
     },
     [],
@@ -107,8 +106,6 @@ export const SearchProvider = ({ children }: PropsWithChildren) => {
   );
 
   return (
-    <SearchContext.Provider value={contextValue}>
-      {children}
-    </SearchContext.Provider>
+    <FeedContext.Provider value={contextValue}>{children}</FeedContext.Provider>
   );
 };
