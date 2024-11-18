@@ -23,6 +23,8 @@ type SearchContextProps = {
   handleSearchInput: (event: ChangeEvent<HTMLInputElement>) => void;
   fromDate?: string;
   handleFromDateChange: (date: DateOptions) => void;
+  sourcesFilter?: string[];
+  handleSourceFilter: (sources: string[]) => void;
   data?: NewsProps[];
   isLoading: boolean;
   isError: boolean;
@@ -33,6 +35,8 @@ export const SearchContext = createContext<SearchContextProps>({
   handleFromDateChange: () => undefined,
   fromDate: "",
   handleSearchInput: () => undefined,
+  sourcesFilter: [],
+  handleSourceFilter: () => undefined,
   isLoading: false,
   isError: false,
   data: [],
@@ -44,16 +48,22 @@ const DEBOUNCE_DELAY = 1000;
 export const SearchProvider = ({ children }: PropsWithChildren) => {
   const [searchValue, setSearchValue] = useState("");
   const [fromDate, setFromDate] = useState("");
+  const [sourcesFilter, setSourcesFilter] = useState<string[]>([]);
 
   const { data, isLoading, isError } = useNews({
     searchValue,
     fromDate,
+    sourcesFilter,
   });
 
   const handleFromDateChange = useCallback((date: DateOptions) => {
     const fromDate = getFromDate(date);
 
     setFromDate(fromDate);
+  }, []);
+
+  const handleSourceFilter = useCallback((source: string[]) => {
+    setSourcesFilter(source);
   }, []);
 
   const handleSearchInput = useCallback(
@@ -78,6 +88,8 @@ export const SearchProvider = ({ children }: PropsWithChildren) => {
       isLoading,
       isError,
       handleFromDateChange,
+      sourcesFilter,
+      handleSourceFilter,
     }),
     [
       searchValue,
@@ -87,6 +99,8 @@ export const SearchProvider = ({ children }: PropsWithChildren) => {
       isError,
       fromDate,
       handleFromDateChange,
+      sourcesFilter,
+      handleSourceFilter,
     ],
   );
 

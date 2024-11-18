@@ -5,14 +5,20 @@ import { useSearch } from "@/app/hooks";
 
 export const useFilters = () => {
   const [date, setDate] = useState<DateOptions>("Anytime");
-  const { handleFromDateChange } = useSearch();
+  const [sources, setSources] = useState<string[]>([]);
+  const { handleFromDateChange, handleSourceFilter } = useSearch();
 
   const handleDateChange = (date: DateOptions) => {
     setDate(date);
   };
 
+  const handleSourceChange = (newSource: string[]) => {
+    setSources(newSource);
+  };
+
   const applyFilters = (onClose: () => void) => {
     handleFromDateChange(date);
+    handleSourceFilter(sources);
     onClose();
   };
 
@@ -20,5 +26,7 @@ export const useFilters = () => {
     date,
     handleDateChange,
     applyFilters,
+    sources,
+    handleSourceChange,
   };
 };

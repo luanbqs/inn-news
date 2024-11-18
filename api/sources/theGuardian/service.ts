@@ -7,12 +7,21 @@ import axios from "@/config/axios";
 interface TheGuardianDTO {
   searchValue?: string;
   fromDate?: string;
+  sourcesFilter?: string[];
 }
 
 export default async function fetchTheGuardianNews<Response>({
   searchValue = "",
   fromDate,
+  sourcesFilter,
 }: TheGuardianDTO): Promise<Response> {
+  if (
+    sourcesFilter?.length === 1 &&
+    sourcesFilter?.find((source) => source !== "the-guardian")
+  ) {
+    return [] as Response;
+  }
+
   const url = buildQueryUrl({
     searchValue,
     fromDate,

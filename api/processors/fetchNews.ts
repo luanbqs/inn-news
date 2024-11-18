@@ -13,17 +13,20 @@ import fetchTheGuardianNews from "../sources/theGuardian/service";
 interface FetchNewsProps {
   searchValue?: string;
   fromDate?: string;
+  sourcesFilter?: string[];
 }
 
-export default async function fetchNews({
-  searchValue,
-  fromDate,
-}: FetchNewsProps): Promise<NewsProps[]> {
-  const newsAPIGateway = searchValue ? fetchNewsApi : fetchHeadLinesNewsApi;
+export default async function fetchNews(
+  fetchProps: FetchNewsProps
+): Promise<NewsProps[]> {
+  const { searchValue, fromDate, sourcesFilter } = fetchProps;
+  const filtersApplied = searchValue || fromDate || sourcesFilter;
+
+  const newsAPIGateway = filtersApplied ? fetchNewsApi : fetchHeadLinesNewsApi;
 
   const response = await Promise.all([
-    fetchTheGuardianNews({ searchValue, fromDate }),
-    newsAPIGateway({ searchValue }),
+    fetchTheGuardianNews(fetchProps),
+    newsAPIGateway(fetchProps),
   ]);
 
   const theGuardianNews = mapTheGuardianResponse(

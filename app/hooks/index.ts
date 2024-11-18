@@ -7,14 +7,16 @@ import { SearchContext } from "@/app/contexts/SearchContext";
 interface UseNewsProps {
   searchValue?: string;
   fromDate?: string;
+  sourcesFilter?: string[];
 }
 
 export function useNews(params?: UseNewsProps) {
-  const { searchValue = "", fromDate } = params || {};
+  const { searchValue = "", fromDate, sourcesFilter = [] } = params || {};
 
   return useQuery({
-    queryKey: ["news", searchValue, fromDate],
-    queryFn: async () => await fetchNews({ searchValue, fromDate }),
+    queryKey: ["news", searchValue, fromDate, sourcesFilter],
+    queryFn: async () =>
+      await fetchNews({ searchValue, fromDate, sourcesFilter }),
   });
 }
 
