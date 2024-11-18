@@ -38,6 +38,16 @@ npm install
 npm run dev
 ```
 
+### Run in docker
+
+```bash
+docker build -t my-app .
+```
+
+```bash
+docker run -p 3000:3000 my-app
+```
+
 ### Setup pnpm (optional)
 
 If you are using `pnpm`, you need to add the following code to your `.npmrc` file:
