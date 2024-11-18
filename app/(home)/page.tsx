@@ -6,8 +6,6 @@ import { Card } from "@/components/Card/Card";
 export default function Home() {
   const { data, isLoading } = useNews();
 
-  console.log(data, isLoading);
-
   if (isLoading) {
     return <div>Loading...</div>;
   }

@@ -4,6 +4,7 @@ import {
   CardHeader,
   CardBody,
   Image,
+  CardFooter,
 } from "@nextui-org/react";
 
 import { NewsProps } from "@/api/interfaces";
@@ -31,6 +32,20 @@ export const Card = ({ news }: CardProps) => {
           </p>
           <small className="text-default-500">{news.category}</small>
         </CardHeader>
+        <CardFooter className="flex flex-col sm:flex-row gap-3">
+          <div className="flex gap-1">
+            <p className="font-semibold text-default-400 text-small">Source:</p>
+            <p className=" text-default-400 text-small">{news.source}</p>
+          </div>
+          <div className="flex gap-1">
+            <p className="font-semibold text-default-400 text-small">
+              Published at:
+            </p>
+            <p className="text-default-400 text-small">
+              {new Date(news.date).toDateString()}
+            </p>
+          </div>
+        </CardFooter>
       </div>
     </NextuiCard>
   );

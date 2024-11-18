@@ -12,7 +12,7 @@ export default async function fetchHeadLinesNewsApi<
       `https://newsapi.org/v2/top-headlines?country=us&apiKey=${process.env.NEWSAPI_API_KEY}`
     );
 
-    return response.data.response;
+    return response.data;
   } catch (error) {
     const axiosError = error as AxiosError;
 
