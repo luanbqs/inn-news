@@ -10,7 +10,7 @@ export default function mapTopHeadlinesNewsApi(
   }
 
   const newsCards: NewsProps[] = response.articles.map((item) => {
-    const { title, description, urlToImage, source, publishedAt } = item;
+    const { title, description, urlToImage, source, publishedAt, url } = item;
 
     return {
       title,
@@ -19,6 +19,7 @@ export default function mapTopHeadlinesNewsApi(
       category: source.name,
       date: new Date(publishedAt).toISOString(),
       source: source.name,
+      url,
     };
   });
 

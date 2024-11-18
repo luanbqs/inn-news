@@ -5,6 +5,7 @@ export interface NewsProps {
   category: string;
   date: string;
   source: string;
+  url: string;
 }
 
 export interface TheGuardianResponseProps {

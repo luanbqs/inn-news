@@ -8,7 +8,7 @@ export default function mapTheGuardianResponse(
   }
 
   const newsCards: NewsProps[] = response.results.map((item) => {
-    const { webTitle, sectionName, webPublicationDate, fields } = item;
+    const { webTitle, sectionName, webPublicationDate, fields, webUrl } = item;
 
     return {
       title: webTitle,
@@ -17,6 +17,7 @@ export default function mapTheGuardianResponse(
       category: sectionName,
       date: webPublicationDate,
       source: "The Guardian",
+      url: webUrl,
     };
   });
 

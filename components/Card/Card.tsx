@@ -13,8 +13,16 @@ interface CardProps {
   news: NewsProps;
 }
 export const Card = ({ news }: CardProps) => {
+  const handleCardClick = () => {
+    window.open(news.url, "_blank");
+  };
+
   return (
-    <NextuiCard className="py-4 w-full sm:w-8/12 flex flex-col items-center sm:flex-row sm:items-center sm:justify-start">
+    <NextuiCard
+      isPressable
+      className=" cursor-pointer py-4 w-full sm:w-8/12 flex flex-col items-center sm:flex-row sm:items-center sm:justify-start"
+      onPress={handleCardClick}
+    >
       <CardBody className="flex justify-center items-center overflow-visible py-2 sm:flex-shrink-0 sm:w-1/3">
         <Image
           alt="Card background"
