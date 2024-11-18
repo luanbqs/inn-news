@@ -10,13 +10,19 @@ import {
 import mapTheGuardianResponse from "../sources/theGuardian/mapper";
 import fetchTheGuardianNews from "../sources/theGuardian/service";
 
+interface FetchNewsProps {
+  searchValue?: string;
+  fromDate?: string;
+}
+
 export default async function fetchNews({
   searchValue,
-}: { searchValue?: string } = {}): Promise<NewsProps[]> {
+  fromDate,
+}: FetchNewsProps): Promise<NewsProps[]> {
   const newsAPIGateway = searchValue ? fetchNewsApi : fetchHeadLinesNewsApi;
 
   const response = await Promise.all([
-    fetchTheGuardianNews({ searchValue }),
+    fetchTheGuardianNews({ searchValue, fromDate }),
     newsAPIGateway({ searchValue }),
   ]);
 

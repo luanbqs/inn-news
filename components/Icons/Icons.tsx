@@ -213,3 +213,22 @@ export const NextUILogo: React.FC<IconSvgProps> = (props) => {
     </svg>
   );
 };
+
+export const FilterIcon = (props: IconSvgProps) => (
+  <svg
+    data-testid="geist-icon"
+    height={16}
+    strokeLinejoin="round"
+    width={16}
+    {...props}
+  >
+    <path
+      clipRule="evenodd"
+      d="M1 0h14v3.31l-.22.22-4.28 4.28V16H8.782l-.185-.117-2.75-1.75-.347-.221V7.81L1.22 3.53 1 3.31V0Zm1.5 1.5v1.19l4.28 4.28.22.22v5.898l2 1.273V7.19l.22-.22 4.28-4.28V1.5h-11Z"
+      fill="currentColor"
+      fillRule="evenodd"
+    />
+  </svg>
+);
+
+export default FilterIcon;

@@ -1,5 +1,5 @@
 "use client";
-import { useSearch } from "./hooks";
+import { useSearch } from "../hooks";
 
 import { Card } from "@/components/Card/Card";
 

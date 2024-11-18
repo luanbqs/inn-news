@@ -4,21 +4,23 @@ import { AxiosError } from "axios";
 
 import axios from "@/config/axios";
 
+interface TheGuardianDTO {
+  searchValue?: string;
+  fromDate?: string;
+}
+
 export default async function fetchTheGuardianNews<Response>({
   searchValue = "",
-}: { searchValue?: string } = {}): Promise<Response> {
+  fromDate,
+}: TheGuardianDTO): Promise<Response> {
   const url = buildQueryUrl({
     searchValue,
+    fromDate,
   });
 
   try {
     const response = await axios.get(
-      `${url}api-key=${process.env.THEGUARDIAN_API_KEY}`,
-      {
-        params: {
-          "show-fields": "thumbnail,bodyText",
-        },
-      }
+      `${url}api-key=${process.env.THEGUARDIAN_API_KEY}`
     );
 
     return response.data.response;
@@ -38,9 +40,9 @@ function buildQueryUrl({
   tag,
   fromDate,
   showTags,
-  showFields,
+  showFields = "thumbnail,bodyText",
   showRefinements,
-  orderBy,
+  orderBy = "relevance",
 }: {
   searchValue: string;
   format?: string;
@@ -66,5 +68,8 @@ function buildQueryUrl({
   if (showRefinements) params.append("show-refinements", showRefinements);
   if (orderBy) params.append("order-by", orderBy);
 
-  return `${baseUrl}?${params.toString()} ${params ? "&" : ""}`;
+  return `${baseUrl}?${params.toString()} ${params ? "&" : ""}`.replace(
+    /\s/g,
+    ""
+  );
 }

@@ -10,16 +10,23 @@ import { Divider } from "@nextui-org/divider";
 import { link as linkStyles } from "@nextui-org/theme";
 import clsx from "clsx";
 import NextLink from "next/link";
+import { useDisclosure } from "@nextui-org/react";
+
+import { Filters } from "../Filters/Filters";
 
 import { ThemeSwitch } from "@/components/theme-switch";
-import { SearchIcon } from "@/components/Icons/Icons";
-import { useSearch } from "@/app/(home)/hooks";
+import { SearchIcon, FilterIcon } from "@/components/Icons/Icons";
+import { useSearch } from "@/app/hooks";
 
 export const Navbar = () => {
   const { handleSearchInput } = useSearch();
 
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
   return (
     <>
+      <Filters isOpen={isOpen} onOpenChange={onOpenChange} />
+
       <NextUINavbar className="bg-default" maxWidth="xl" position="sticky">
         <NavbarContent className="w-full" justify="center">
           <NavbarItem className="w-full md:w-6/12">
@@ -41,6 +48,13 @@ export const Navbar = () => {
               }
               type="search"
               onChange={handleSearchInput}
+            />
+          </NavbarItem>
+          <NavbarItem>
+            <FilterIcon
+              className="text-default-900 cursor-pointer"
+              size={22}
+              onClick={onOpen}
             />
           </NavbarItem>
           <NavbarItem>

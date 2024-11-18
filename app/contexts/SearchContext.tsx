@@ -7,13 +7,22 @@ import {
   useState,
 } from "react";
 
-import { useNews } from "../(home)/hooks";
+import { useNews } from "../hooks";
 
 import { NewsProps } from "@/api/interfaces";
+import { getFromDate } from "@/utils";
+
+export type DateOptions =
+  | "Anytime"
+  | "Past 24 hours"
+  | "Past week"
+  | "Past year";
 
 type SearchContextProps = {
   searchValue: string;
   handleSearchInput: (event: ChangeEvent<HTMLInputElement>) => void;
+  fromDate?: string;
+  handleFromDateChange: (date: DateOptions) => void;
   data?: NewsProps[];
   isLoading: boolean;
   isError: boolean;
@@ -21,9 +30,11 @@ type SearchContextProps = {
 
 export const SearchContext = createContext<SearchContextProps>({
   searchValue: "",
+  handleFromDateChange: () => undefined,
+  fromDate: "",
+  handleSearchInput: () => undefined,
   isLoading: false,
   isError: false,
-  handleSearchInput: () => undefined,
   data: [],
 });
 
@@ -32,10 +43,20 @@ const DEBOUNCE_DELAY = 1000;
 
 export const SearchProvider = ({ children }: PropsWithChildren) => {
   const [searchValue, setSearchValue] = useState("");
+  const [fromDate, setFromDate] = useState("");
 
   const { data, isLoading, isError } = useNews({
     searchValue,
+    fromDate,
   });
+
+  const handleFromDateChange = useCallback((date: DateOptions) => {
+    const fromDate = getFromDate(date);
+
+    console.log("aqui--->", fromDate);
+
+    setFromDate(fromDate);
+  }, []);
 
   const handleSearchInput = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
@@ -54,11 +75,21 @@ export const SearchProvider = ({ children }: PropsWithChildren) => {
     () => ({
       searchValue,
       handleSearchInput,
+      fromDate,
       data,
       isLoading,
       isError,
+      handleFromDateChange,
     }),
-    [searchValue, handleSearchInput, data, isLoading, isError],
+    [
+      searchValue,
+      handleSearchInput,
+      data,
+      isLoading,
+      isError,
+      fromDate,
+      handleFromDateChange,
+    ],
   );
 
   return (
