@@ -3,16 +3,21 @@
 import { NewsProps, TheGuardianResponseProps } from "../interfaces";
 import { NewsApiResponseProps } from "../interfaces/newsAPI";
 import mapTopHeadlinesNewsApi from "../sources/newsAPI/mapper";
-import fetchHeadLinesNewsApi from "../sources/newsAPI/service";
+import {
+  fetchHeadLinesNewsApi,
+  fetchNewsApi,
+} from "../sources/newsAPI/service";
 import mapTheGuardianResponse from "../sources/theGuardian/mapper";
 import fetchTheGuardianNews from "../sources/theGuardian/service";
 
 export default async function fetchNews({
   searchValue,
 }: { searchValue?: string } = {}): Promise<NewsProps[]> {
+  const newsAPIGateway = searchValue ? fetchNewsApi : fetchHeadLinesNewsApi;
+
   const response = await Promise.all([
     fetchTheGuardianNews({ searchValue }),
-    fetchHeadLinesNewsApi(),
+    newsAPIGateway({ searchValue }),
   ]);
 
   const theGuardianNews = mapTheGuardianResponse(
