@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { ThemeProviderProps } from "next-themes/dist/types";
 
+import { SearchProvider } from "../contexts/SearchContext";
+
 import QueryProvider from "./queryProvider/QueryProvider";
 
 export interface ProvidersProps {
@@ -19,7 +21,9 @@ export function Providers({ children, themeProps }: ProvidersProps) {
   return (
     <NextUIProvider navigate={router.push}>
       <NextThemesProvider {...themeProps}>
-        <QueryProvider>{children}</QueryProvider>
+        <QueryProvider>
+          <SearchProvider>{children}</SearchProvider>
+        </QueryProvider>
       </NextThemesProvider>
     </NextUIProvider>
   );

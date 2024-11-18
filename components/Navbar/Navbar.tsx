@@ -1,3 +1,4 @@
+"use client";
 import {
   Navbar as NextUINavbar,
   NavbarContent,
@@ -12,8 +13,11 @@ import NextLink from "next/link";
 
 import { ThemeSwitch } from "@/components/theme-switch";
 import { SearchIcon } from "@/components/Icons/Icons";
+import { useSearch } from "@/app/(home)/hooks";
 
 export const Navbar = () => {
+  const { handleSearchInput } = useSearch();
+
   return (
     <>
       <NextUINavbar className="bg-default" maxWidth="xl" position="sticky">
@@ -36,6 +40,7 @@ export const Navbar = () => {
                 <SearchIcon className="text-default-900 text-base text-default-400 pointer-events-none flex-shrink-0" />
               }
               type="search"
+              onChange={handleSearchInput}
             />
           </NavbarItem>
           <NavbarItem>

@@ -1,10 +1,10 @@
 "use client";
-import { useNews } from "./hooks";
+import { useSearch } from "./hooks";
 
 import { Card } from "@/components/Card/Card";
 
 export default function Home() {
-  const { data, isLoading } = useNews();
+  const { data, isLoading } = useSearch();
 
   if (isLoading) {
     return <div>Loading...</div>;
