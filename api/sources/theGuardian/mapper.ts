@@ -1,5 +1,7 @@
 import { NewsProps, TheGuardianResponseProps } from "../../interfaces";
 
+import { THE_GUARDIAN_SOURCE } from "@/api/constants";
+
 export default function mapTheGuardianResponse(
   response: TheGuardianResponseProps
 ): NewsProps[] {
@@ -16,7 +18,7 @@ export default function mapTheGuardianResponse(
       image: fields.thumbnail,
       category: sectionName,
       date: webPublicationDate,
-      source: "The Guardian",
+      source: THE_GUARDIAN_SOURCE,
       url: webUrl,
     };
   });

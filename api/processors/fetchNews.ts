@@ -2,6 +2,7 @@
 
 import { NewsProps, TheGuardianResponseProps } from "../interfaces";
 import { NewsApiResponseProps } from "../interfaces/newsAPI";
+import { TheNYTResponseProps } from "../interfaces/theNYT";
 import mapTopHeadlinesNewsApi from "../sources/newsAPI/mapper";
 import {
   fetchHeadLinesNewsApi,
@@ -9,6 +10,8 @@ import {
 } from "../sources/newsAPI/service";
 import mapTheGuardianResponse from "../sources/theGuardian/mapper";
 import fetchTheGuardianNews from "../sources/theGuardian/service";
+import mapTheNYTResponse from "../sources/TheNYT/mapper";
+import fetchTheNYT from "../sources/TheNYT/service";
 
 interface FetchNewsProps {
   searchValue?: string;
@@ -27,6 +30,7 @@ export default async function fetchNews(
   const response = await Promise.all([
     fetchTheGuardianNews(fetchProps),
     newsAPIGateway(fetchProps),
+    fetchTheNYT(fetchProps),
   ]);
 
   const theGuardianNews = mapTheGuardianResponse(
@@ -37,5 +41,9 @@ export default async function fetchNews(
     response[1] as unknown as NewsApiResponseProps
   );
 
-  return [...theGuardianNews, ...newsApiNews];
+  const theNYTNews = mapTheNYTResponse(
+    response[2] as unknown as TheNYTResponseProps
+  );
+
+  return [...theGuardianNews, ...newsApiNews, ...theNYTNews];
 }

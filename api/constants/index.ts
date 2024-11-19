@@ -1,3 +1,14 @@
+export const THE_NYT_BASE_URL =
+  "https://api.nytimes.com/svc/search/v2/articlesearch.json";
+export const THE_NYT_IMAGE_URL = "https://static01.nyt.com/";
+export const THE_NYT_SOURCE = "The New York Times";
+export const THE_NYT_IMAGE_SIZE = "xlarge";
+
+export const THE_GUARDIAN_BASE_URL = "https://content.guardianapis.com/search";
+export const THE_GUARDIAN_SOURCE = "The Guardian";
+
+export const NEWSAPI_API_SOURCES = ["bbc-news", "cnn"];
+
 export const sourcesList = {
   status: "ok",
   sources: [
@@ -30,6 +41,14 @@ export const sourcesList = {
       category: "general",
       language: "en",
       country: "us",
+    },
+    {
+      id: "the-nyt",
+      name: "The New York Times",
+      description:
+        "Find breaking news, multimedia, reviews & opinion on Washington, business, sports, movies, travel, books, jobs, education, real estate, cars & more at nytimes.com.",
+      url: "http://www.nytimes.com",
+      category: "general",
     },
   ],
 };

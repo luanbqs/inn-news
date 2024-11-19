@@ -35,7 +35,10 @@ export async function fetchNewsApi<Response>({
   sourcesFilter,
 }: NesAPIDTO): Promise<Response> {
   try {
-    if (sourcesFilter?.find((source) => source === "the-guardian")) {
+    const bbc = sourcesFilter?.find((source) => source === "bbc-news");
+    const cnn = sourcesFilter?.find((source) => source === "cnn");
+
+    if (!bbc && !cnn) {
       return [] as Response;
     }
 

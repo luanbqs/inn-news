@@ -3,7 +3,7 @@ import "server-only";
 import { AxiosError } from "axios";
 
 import axios from "@/config/axios";
-import { THE_GUARDIAN_BASE_URL } from "@/api/constants";
+import { THE_NYT_BASE_URL } from "@/api/constants";
 
 interface TheGuardianDTO {
   searchValue?: string;
@@ -11,14 +11,14 @@ interface TheGuardianDTO {
   sourcesFilter?: string[];
 }
 
-export default async function fetchTheGuardianNews<Response>({
+export default async function fetchTheNYT<Response>({
   searchValue = "",
   fromDate,
   sourcesFilter,
 }: TheGuardianDTO): Promise<Response> {
   if (
     sourcesFilter?.length === 1 &&
-    sourcesFilter?.find((source) => source !== "the-guardian")
+    sourcesFilter?.find((source) => source !== "the-nyt")
   ) {
     return [] as Response;
   }
@@ -31,7 +31,7 @@ export default async function fetchTheGuardianNews<Response>({
   try {
     const response = await axios.get(url);
 
-    return response.data.response;
+    return response.data;
   } catch (error) {
     const axiosError = error as AxiosError;
 
@@ -45,21 +45,10 @@ export default async function fetchTheGuardianNews<Response>({
 
 function buildQueryUrl({
   searchValue,
-  tag,
   fromDate,
-  showTags,
-  showFields = "thumbnail,bodyText",
-  showRefinements,
-  orderBy = "relevance",
 }: {
   searchValue: string;
-  format?: string;
-  tag?: string;
   fromDate?: string;
-  showTags?: string;
-  showFields?: string;
-  showRefinements?: string;
-  orderBy?: string;
 }): string {
   const params = new URLSearchParams();
 
@@ -67,13 +56,11 @@ function buildQueryUrl({
     params.append("q", encodeURIComponent(searchValue));
   }
 
-  if (tag) params.append("tag", tag);
-  if (fromDate) params.append("from-date", fromDate);
-  if (showTags) params.append("show-tags", showTags);
-  if (showFields) params.append("show-fields", showFields);
-  if (showRefinements) params.append("show-refinements", showRefinements);
-  if (orderBy) params.append("order-by", orderBy);
-  params.append("api-key", process.env.THEGUARDIAN_API_KEY || "");
+  if (fromDate) {
+    params.append("begin_date", fromDate);
+  }
 
-  return `${THE_GUARDIAN_BASE_URL}?${params.toString()}`;
+  params.append("api-key", process.env.THE_NYT_APY_KEY || "");
+
+  return `${THE_NYT_BASE_URL}?${params.toString()}`;
 }

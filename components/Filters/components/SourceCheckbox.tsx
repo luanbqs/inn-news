@@ -1,6 +1,6 @@
 import { CheckboxGroup, Checkbox } from "@nextui-org/react";
 
-import { sourcesList } from "../constants";
+import { sourcesList } from "@/api/constants";
 
 interface SourceCheckboxProps {
   sources: string[];
